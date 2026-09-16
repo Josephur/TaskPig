@@ -2,3 +2,8 @@
 .agents/
 
 .DS_Store
+
+# workspace build outputs (matches at any depth)
+node_modules
+dist
+*.tsbuildinfo

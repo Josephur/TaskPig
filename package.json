@@ -1,0 +1,21 @@
+{
+  "name": "taskpig-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "TaskPig monorepo: Tauri app, plugin SDK, and bundled plugins",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "plugins/*"
+  ],
+  "scripts": {
+    "build": "npm run build:libs && npm run build --workspace=taskpig",
+    "build:libs": "npm run build --workspace=@taskpig/plugin-sdk && npm run build --workspace=@taskpig/plugin-i18n",
+    "dev": "npm run build:libs && npm run dev --workspace=taskpig",
+    "lint": "node scripts/check-i18n.mjs && node --test \"scripts/**/*.test.mjs\" && npm run lint --workspaces --if-present",
+    "test": "npm run build:libs && npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@babel/parser": "^8.0.5"
+  }
+}

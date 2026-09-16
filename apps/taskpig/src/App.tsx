@@ -1,51 +1,45 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import type { LoadedPlugins } from "@taskpig/plugin-sdk";
+import { I18N_SERVICE_KEY, type I18nService } from "@taskpig/plugin-i18n";
+import { I18nProvider, useT } from "@taskpig/plugin-i18n/react";
+import type { JSX } from "react";
+import { routeHref, useRoute, type Route } from "./router";
+import { NotFoundView } from "./views/NotFoundView";
+import { SettingsView } from "./views/SettingsView";
+import { TasksView } from "./views/TasksView";
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
+export default function App({ loaded }: { loaded: LoadedPlugins }): JSX.Element {
+  const i18n = loaded.context.services.require<I18nService>(I18N_SERVICE_KEY);
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <I18nProvider service={i18n}>
+      <Shell loaded={loaded} />
+    </I18nProvider>
   );
 }
 
-export default App;
+function Shell({ loaded }: { loaded: LoadedPlugins }): JSX.Element {
+  const t = useT();
+  const route = useRoute();
+  return (
+    <div className="shell">
+      <header className="topbar">
+        <span className="brand">{t.t("app.name")}</span>
+        <nav className="nav">
+          <a href={routeHref("tasks")}>{t.t("nav.tasks")}</a>
+          <a href={routeHref("settings")}>{t.t("nav.settings")}</a>
+        </nav>
+      </header>
+      <main className="content">{renderRoute(route, loaded)}</main>
+    </div>
+  );
+}
+
+function renderRoute(route: Route, loaded: LoadedPlugins): JSX.Element {
+  switch (route) {
+    case "tasks":
+      return <TasksView context={loaded.context} />;
+    case "settings":
+      return <SettingsView loaded={loaded} />;
+    case "notfound":
+      return <NotFoundView />;
+  }
+}
