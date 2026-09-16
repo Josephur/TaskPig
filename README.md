@@ -65,5 +65,5 @@ through the Localization plugin once Phase 1 lands).
 
 ## License
 
-TBD — a license will be chosen before the first release. Until `LICENSE`
-exists, all rights reserved.
+MIT — see [LICENSE](LICENSE). Use it however you like, just keep the
+copyright notice.
