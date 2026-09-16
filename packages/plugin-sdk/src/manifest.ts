@@ -20,6 +20,8 @@ export interface PluginManifest {
   version: string;
   /** Optional i18n key for the human-friendly name (e.g. "plugins.i18n.name"). */
   displayNameKey?: string;
+  /** Human author/maintainer, shown as-is (names are not translated). */
+  author?: string;
   provides?: string[];
   requires?: PluginRequirement[];
   contributions?: PluginContributions;
@@ -56,7 +58,7 @@ export function validateManifest(manifest: unknown): PluginManifest {
   if (!isRecord(manifest)) {
     throw new PluginError("invalid-manifest", "Manifest must be an object");
   }
-  const { id, version, displayNameKey, provides, requires, contributions } = manifest;
+  const { id, version, displayNameKey, author, provides, requires, contributions } = manifest;
   if (typeof id !== "string" || !ID_RE.test(id)) {
     throw new PluginError(
       "invalid-manifest",
@@ -96,6 +98,12 @@ export function validateManifest(manifest: unknown): PluginManifest {
       );
     }
     out.displayNameKey = displayNameKey;
+  }
+  if (author !== undefined) {
+    if (typeof author !== "string" || author.length === 0) {
+      throw new PluginError("invalid-manifest", 'Manifest "author" must be a non-empty string');
+    }
+    out.author = author;
   }
   if (provides !== undefined) out.provides = provides;
   if (validatedRequires !== undefined) out.requires = validatedRequires;

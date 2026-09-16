@@ -22,10 +22,18 @@ export const en: Catalog = {
   settings: {
     title: "Settings",
     languageLabel: "Language",
-    languageName_en: "English",
+    languageName_en: "English (US)",
     pluginsTitle: "Plugins",
-    pluginsEmpty: "No plugins loaded.",
-    pluginLabel: "{name} ({id}) v{version}",
+    col: {
+      enabled: "Enabled",
+      name: "Name",
+      author: "Author",
+      package: "Package",
+      version: "Version",
+    },
+    toggleAria: "Toggle {name}",
+    requiredNote: "Required to run TaskPig",
+    cannotDisable: "Cannot disable while enabled plugins require it: {names}",
   },
   notFound: {
     title: "Page not found",

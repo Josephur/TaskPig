@@ -27,7 +27,7 @@ describe("<App>", () => {
     expect(screen.getByText("sidebar-note")).toBeDefined();
   });
 
-  it("navigates to settings and lists loaded plugins", async () => {
+  it("shows the plugin matrix with friendly names", async () => {
     const loaded = await boot();
     render(<App loaded={loaded} />);
     act(() => {
@@ -36,8 +36,17 @@ describe("<App>", () => {
     });
     expect(screen.getByRole("heading", { name: "Settings" })).toBeDefined();
     expect(screen.getByText("Language")).toBeDefined();
-    expect(
-      screen.getByText("TaskPig Localization (taskpig.i18n) v0.1.0"),
-    ).toBeDefined();
+    expect(screen.getByRole("columnheader", { name: "Enabled" })).toBeDefined();
+    expect(screen.getByRole("columnheader", { name: "Name" })).toBeDefined();
+    expect(screen.getByRole("columnheader", { name: "Author" })).toBeDefined();
+    expect(screen.getByRole("columnheader", { name: "Package" })).toBeDefined();
+    expect(screen.getByRole("columnheader", { name: "Version" })).toBeDefined();
+    expect(screen.getByText("TaskPig Localization")).toBeDefined();
+    expect(screen.getByText("Joseph Stackhouse")).toBeDefined();
+    expect(screen.getByText("taskpig.i18n")).toBeDefined();
+    expect(screen.getByText("v0.1.0")).toBeDefined();
+    const toggle = screen.getByRole("checkbox", { name: "Toggle TaskPig Localization" });
+    expect((toggle as HTMLInputElement).checked).toBe(true);
+    expect((toggle as HTMLInputElement).disabled).toBe(true);
   });
 });

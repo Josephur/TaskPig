@@ -14,6 +14,7 @@ describe("validateManifest", () => {
       id: "taskpig.provider.googletasks",
       version: "0.1.0",
       displayNameKey: "plugins.googletasks.name",
+      author: "Test Author",
       provides: ["task.provider"],
       requires: [{ id: "taskpig.account.google", version: "^0.1.0" }],
       contributions: { slots: ["tasks.sidebar"], commands: ["tasks.refresh"] },
@@ -30,6 +31,8 @@ describe("validateManifest", () => {
     ["short version", { id: "a.b", version: "1.2" }],
     ["blank displayNameKey", { id: "a.b", version: "1.0.0", displayNameKey: "" }],
     ["non-string displayNameKey", { id: "a.b", version: "1.0.0", displayNameKey: 7 }],
+    ["blank author", { id: "a.b", version: "1.0.0", author: "" }],
+    ["non-string author", { id: "a.b", version: "1.0.0", author: 7 }],
     ["provides not array", { id: "a.b", version: "1.0.0", provides: "x" }],
     ["requires not array", { id: "a.b", version: "1.0.0", requires: {} }],
     [

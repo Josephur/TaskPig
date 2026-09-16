@@ -43,6 +43,39 @@ describe("I18nService.count", () => {
   });
 });
 
+describe("registerStrings", () => {
+  it("merges plugin strings under their id namespace", () => {
+    const svc = service();
+    svc.registerStrings("taskpig.demo", "en", { hi: "Hello, {name}!" });
+    expect(svc.t("taskpig.demo.hi", { name: "Pig" })).toBe("Hello, Pig!");
+    expect(svc.t("nav.tasks")).toBe("Tasks");
+  });
+
+  it("deep-merges without clobbering", () => {
+    const svc = service();
+    svc.registerStrings("taskpig.demo", "en", { a: { one: "1" } });
+    svc.registerStrings("taskpig.demo", "en", { a: { two: "2" } });
+    expect(svc.t("taskpig.demo.a.one")).toBe("1");
+    expect(svc.t("taskpig.demo.a.two")).toBe("2");
+  });
+
+  it("prefers the longest matching namespace", () => {
+    const svc = service();
+    svc.registerStrings("a", "en", { x: "short" });
+    svc.registerStrings("a.b", "en", { x: "long" });
+    expect(svc.t("a.b.x")).toBe("long");
+    expect(svc.t("a.x")).toBe("short");
+  });
+
+  it("rejects unknown locales and bad ids", () => {
+    const svc = service();
+    expect(() => svc.registerStrings("taskpig.demo", "xx", {})).toThrowError(
+      /Unknown locale "xx"/,
+    );
+    expect(() => svc.registerStrings("", "en", {})).toThrowError(/non-empty plugin id/);
+  });
+});
+
 describe("locales", () => {
   it("switches locale and notifies subscribers", () => {
     const svc = service({ en, xx: { nav: { tasks: "Taches" } } });

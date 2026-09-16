@@ -9,6 +9,7 @@ export const i18nPlugin: PluginModule = {
     id: "taskpig.i18n",
     version: "0.1.0",
     displayNameKey: "plugins.i18n.name",
+    author: "Joseph Stackhouse",
     provides: ["i18n"],
   },
   activate: (ctx: PluginContext) => {
