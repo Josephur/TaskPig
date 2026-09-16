@@ -20,9 +20,17 @@ Use the issue templates so labels are applied automatically:
 - **Bug report** (`bug` label): anything broken. Include OS, desktop/Android,
   app version, repro steps, and logs.
 
+## Releases
+
+Pushing a `v*` tag (e.g. `v0.1.0`) triggers `.github/workflows/release.yml`,
+which creates a GitHub Release with auto-generated notes. Built artifacts join
+the release in Phase 7.
+
 ## Pull requests
 
 - Keep PRs small and scoped to one issue when possible.
+- Use conventional PR titles (`feat:`, `fix:`, `docs:`, `chore:`): squash-merge
+  puts the PR title in history, and release notes are generated from them.
 - Add or update tests for behavior changes (SDK unit tests, frontend tests,
   `cargo test` — whichever covers your change).
 - No hard-coded user-visible strings: everything renders through the

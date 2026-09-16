@@ -1,0 +1,25 @@
+name: Release
+
+# Pushing a v* tag creates a GitHub Release whose notes are auto-generated
+# from commit/PR titles (use conventional titles: feat:, fix:, docs:, chore:).
+# Phase 7 extends this job with built Linux/Windows/Android artifacts.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create GitHub Release with auto-generated notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release create "${{ github.ref_name }}"
+          --title "${{ github.ref_name }}"
+          --generate-notes
