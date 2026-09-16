@@ -36,6 +36,8 @@ describe("<App>", () => {
     });
     expect(screen.getByRole("heading", { name: "Settings" })).toBeDefined();
     expect(screen.getByText("Language")).toBeDefined();
-    expect(screen.getByText("taskpig.i18n")).toBeDefined();
+    expect(
+      screen.getByText("TaskPig Localization (taskpig.i18n) v0.1.0"),
+    ).toBeDefined();
   });
 });

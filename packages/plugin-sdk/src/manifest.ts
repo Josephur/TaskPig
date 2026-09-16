@@ -18,6 +18,8 @@ export interface PluginManifest {
   id: string;
   /** Manifests pin exact MAJOR.MINOR.PATCH versions. */
   version: string;
+  /** Optional i18n key for the human-friendly name (e.g. "plugins.i18n.name"). */
+  displayNameKey?: string;
   provides?: string[];
   requires?: PluginRequirement[];
   contributions?: PluginContributions;
@@ -54,7 +56,7 @@ export function validateManifest(manifest: unknown): PluginManifest {
   if (!isRecord(manifest)) {
     throw new PluginError("invalid-manifest", "Manifest must be an object");
   }
-  const { id, version, provides, requires, contributions } = manifest;
+  const { id, version, displayNameKey, provides, requires, contributions } = manifest;
   if (typeof id !== "string" || !ID_RE.test(id)) {
     throw new PluginError(
       "invalid-manifest",
@@ -86,6 +88,15 @@ export function validateManifest(manifest: unknown): PluginManifest {
     }
   }
   const out: PluginManifest = { id, version };
+  if (displayNameKey !== undefined) {
+    if (typeof displayNameKey !== "string" || displayNameKey.length === 0) {
+      throw new PluginError(
+        "invalid-manifest",
+        'Manifest "displayNameKey" must be a non-empty i18n key',
+      );
+    }
+    out.displayNameKey = displayNameKey;
+  }
   if (provides !== undefined) out.provides = provides;
   if (validatedRequires !== undefined) out.requires = validatedRequires;
   if (contributions !== undefined) {

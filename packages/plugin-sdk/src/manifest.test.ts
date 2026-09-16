@@ -13,6 +13,7 @@ describe("validateManifest", () => {
     const manifest = {
       id: "taskpig.provider.googletasks",
       version: "0.1.0",
+      displayNameKey: "plugins.googletasks.name",
       provides: ["task.provider"],
       requires: [{ id: "taskpig.account.google", version: "^0.1.0" }],
       contributions: { slots: ["tasks.sidebar"], commands: ["tasks.refresh"] },
@@ -27,6 +28,8 @@ describe("validateManifest", () => {
     ["id with spaces", { id: "has space", version: "1.0.0" }],
     ["non-string version", { id: "a.b", version: 3 }],
     ["short version", { id: "a.b", version: "1.2" }],
+    ["blank displayNameKey", { id: "a.b", version: "1.0.0", displayNameKey: "" }],
+    ["non-string displayNameKey", { id: "a.b", version: "1.0.0", displayNameKey: 7 }],
     ["provides not array", { id: "a.b", version: "1.0.0", provides: "x" }],
     ["requires not array", { id: "a.b", version: "1.0.0", requires: {} }],
     [

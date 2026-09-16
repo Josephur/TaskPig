@@ -26,12 +26,32 @@ export function SettingsView({ loaded }: { loaded: LoadedPlugins }): JSX.Element
         <ul className="plugin-list">
           {order.map((plugin) => (
             <li key={plugin.manifest.id}>
-              <code>{plugin.manifest.id}</code> {`v${plugin.manifest.version}`}
+              <PluginLabel
+                id={plugin.manifest.id}
+                version={plugin.manifest.version}
+                displayNameKey={plugin.manifest.displayNameKey}
+              />
             </li>
           ))}
         </ul>
       )}
       <Slot name="settings.sections" slots={context.slots} />
     </section>
+  );
+}
+
+function PluginLabel({
+  id,
+  version,
+  displayNameKey,
+}: {
+  id: string;
+  version: string;
+  displayNameKey?: string;
+}): JSX.Element {
+  const t = useT();
+  if (!displayNameKey) return <code>{`${id} v${version}`}</code>;
+  return (
+    <span>{t.t("settings.pluginLabel", { name: t.t(displayNameKey), id, version })}</span>
   );
 }

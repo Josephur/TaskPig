@@ -25,6 +25,7 @@ export const en: Catalog = {
     languageName_en: "English",
     pluginsTitle: "Plugins",
     pluginsEmpty: "No plugins loaded.",
+    pluginLabel: "{name} ({id}) v{version}",
   },
   notFound: {
     title: "Page not found",
@@ -35,5 +36,8 @@ export const en: Catalog = {
     loading: "Loading…",
     retry: "Retry",
     errorTitle: "Something went wrong",
+  },
+  plugins: {
+    i18n: { name: "TaskPig Localization" },
   },
 };

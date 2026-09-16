@@ -13,6 +13,7 @@ export const myPlugin: PluginModule = {
   manifest: {
     id: "taskpig.example.myplugin", // unique, dot-namespaced
     version: "0.1.0", // exact MAJOR.MINOR.PATCH
+    displayNameKey: "plugins.myplugin.name", // i18n key, never a literal
     provides: ["example.thing"], // capabilities others can discover
     requires: [{ id: "taskpig.i18n", version: "^0.1.0" }], // dep or it won't load
   },

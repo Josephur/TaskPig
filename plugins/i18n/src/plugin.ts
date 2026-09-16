@@ -8,6 +8,7 @@ export const i18nPlugin: PluginModule = {
   manifest: {
     id: "taskpig.i18n",
     version: "0.1.0",
+    displayNameKey: "plugins.i18n.name",
     provides: ["i18n"],
   },
   activate: (ctx: PluginContext) => {
