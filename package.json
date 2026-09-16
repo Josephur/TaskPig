@@ -12,7 +12,10 @@
     "build": "npm run build --workspace=@taskpig/plugin-sdk && npm run build --workspace=@taskpig/plugin-i18n && npm run build --workspace=taskpig",
     "build:sdk": "npm run build --workspace=@taskpig/plugin-sdk && npm run build --workspace=@taskpig/plugin-i18n",
     "dev": "npm run build --workspace=@taskpig/plugin-sdk && npm run build --workspace=@taskpig/plugin-i18n && npm run dev --workspace=taskpig",
-    "lint": "npm run lint --workspaces --if-present",
+    "lint": "node scripts/check-i18n.mjs && node --test \"scripts/**/*.test.mjs\" && npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@babel/parser": "^8.0.5"
   }
 }

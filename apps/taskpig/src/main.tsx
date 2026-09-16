@@ -9,7 +9,7 @@ function FatalError({ error }: { error: unknown }): JSX.Element {
   const message = error instanceof Error ? error.message : String(error);
   return (
     <main className="content">
-      {/* eslint-disable-next-line react/jsx-no-literals -- boot failed before i18n existed */}
+      {/* i18n:allow-literal -- boot failed before i18n existed */}
       <h1>TaskPig could not start</h1>
       <p>{message}</p>
     </main>

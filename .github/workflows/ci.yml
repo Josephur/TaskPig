@@ -7,25 +7,30 @@ on:
 jobs:
   frontend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: apps/taskpig
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: apps/taskpig/package-lock.json
       - run: npm ci
+      - run: npm run lint
+      - run: npm run test
       - run: npm run build
 
-  rustfmt:
+  rust:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/taskpig/src-tauri
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/taskpig/src-tauri
       - run: cargo fmt --check
-        working-directory: apps/taskpig/src-tauri
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
