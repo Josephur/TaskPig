@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
-import { act, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import type { JSX } from "react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { I18nProvider, useT } from "./react.js";
 import { I18nService } from "./service.js";
+
+afterEach(() => cleanup());
 
 function Label(): JSX.Element {
   const t = useT();
