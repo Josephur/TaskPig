@@ -1,0 +1,4 @@
+# local-only scratch (session plans, notes); never committed
+.agents/
+
+.DS_Store
